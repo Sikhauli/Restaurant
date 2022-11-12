@@ -78,6 +78,8 @@ import org.apache.tools.ant.taskdefs.condition.Os
  * ]
  */
 
+apply plugin: 'kotlin-android'
+
 def projectRoot = rootDir.getAbsoluteFile().getParentFile().getAbsolutePath()
 
 def reactNativeRoot = new File(["node", "--print", "require.resolve('react-native/package.json')"].execute(null, rootDir).text.trim()).getParentFile().getAbsolutePath()
@@ -182,6 +184,17 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+                storeFile file(MYAPP_UPLOAD_STORE_FILE)
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+            }
+        }
+    }
+
     if (isNewArchitectureEnabled()) {
         // We configure the NDK build only if you decide to opt-in for the New Architecture.
         externalNativeBuild {
@@ -249,6 +262,7 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
 
@@ -373,4 +387,9 @@ def isNewArchitectureEnabled() {
     // - Invoke gradle with `-newArchEnabled=true`
     // - Set an environment variable `ORG_GRADLE_PROJECT_newArchEnabled=true`
     return project.hasProperty("newArchEnabled") && project.newArchEnabled == "true"
+}
+
+task copyDownloadableDepsToLibs(type: Copy) {
+    from configurations.compile
+    into 'libs'
 }

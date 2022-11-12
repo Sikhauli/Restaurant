@@ -5,7 +5,12 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "cd4ecdd4-a0f4-435b-a6b2-644be0589139"
+      }
+    }
   },
   "name": "Restaurant"
 }
