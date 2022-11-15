@@ -3,43 +3,59 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, Button, SafeAreaView, 
 import {emitConfig} from "./Home"
 import { Icon } from 'react-native-elements'
 
-// 
+// {route, navigation}
 const Cart = ({route, navigation}) => {
 
     const [amountTaken, setAmountTaken] = useState(1);
-    // const [total, setTotal] = useState(0);
-    // const [priceSum, setPriceSum] = useState(0);
+    const [total, setTotal] = useState(0);
+    const [priceSum, setPriceSum] = useState(0);
 
-  // const delivery = 'Not Available'
+    // const [sum, setSum] = useState(0);
+
+    const [modalState, setModalState] = useState(true)
+
+  const delivery = 'Not Available'
 
   const items =  route.params.item;
 
-  // const tax = 15;
+  const tax = 15;
   console.log(items)
 
-  // let sum = 0;
+  let sum = 0
 
-  // useEffect(() => {  
+  useEffect(() => {  
 
-  //   // items.forEach((item) => {
-  //   //  sum = sum + item.price;
-  //   // });
+    items.forEach((item) => {
+     sum = sum + item.price;
+    });
+    console.log(sum)
+    setPriceSum(sum)
+    }, [sum]);
 
-  //   });
 
+    const nav = () =>{
+      navigation.navigate('Pay')
+    }
 
-  //   const finalPrice = tax * sum; 
+    const NavButton = () =>{
+      setModalState(false);
+      nav()
+    }
 
-  //   // console.log(sum)
-  //   setPriceSum(sum)
-  //   // setTotal(finalPrice)
+    const finalPrice = tax/100*priceSum + priceSum; 
+
+  
+    // setPriceSum(sum)
+    // setTotal(finalPrice)
+
+    console.log(priceSum)
 
   return (
     <View  style={styles.container}>
 
     <Text style={styles.title}>{}</Text>
    {/* <View style={styles.subContainer}> */}
-   
+
  
    {items.map((data, key) => {
        return <View style={styles.food} key={key}>
@@ -57,17 +73,17 @@ const Cart = ({route, navigation}) => {
     <View style={styles.counterStyle}>
 
     <Icon raised size={16} name='remove' type='material' color='#517fa4'
-      onPress={()=> setAmountTaken(amountTaken - 1)}
+      // onPress={()=> setAmountTaken(amountTaken - 1)}
     />
       <Text style={styles.amount}>{amountTaken}</Text>  
     <Icon raised size={16} name='add' type='material' color='#517fa4'
-    onPress={()=> setAmountTaken(amountTaken + 1)}
+    // onPress={()=> setAmountTaken(amountTaken + 1)}
     />
    </View>  
 
     </View>;
   })}
-
+{/*
    <TouchableOpacity
    activeOpacity={0.7}
    onPress={()=>navigation.navigate('Pay')}
@@ -76,23 +92,23 @@ const Cart = ({route, navigation}) => {
    <Text style={{color: 'white', fontSize: 20,  }}> Pay Now </Text>
  </TouchableOpacity>
 
+*/}
 
 {/* Modal Sreen */}
-{/*
+
 <Modal
 transparent={true}
-visible={true}
+visible={modalState}
 >
-<View style={{width: '100vw', height: '30vh', background: 'orange', marginTop: '70vh', borderTopRightRadius: 20, borderTopLeftRadius: 20, padding:20}}>
+<View style={{width: '100vw', height: '40vh', background: 'orange', marginTop: '70vh', borderTopRightRadius: 20, borderTopLeftRadius: 20, padding:20}}>
 
-  <Text style={styles.cartText}>Subtotal {priceSum}</Text>
-  <Text style={styles.cartText}>Tax  {tax}</Text>
-  <Text style={styles.cartText}>Delivery {delivery}</Text>
-  <Text style={{fontSize: 24, marginTop: 20, marginBottom: 20}}>TOTAL {priceSum}</Text>
-  <View style={{borderRadius:'20', height:'8vh', }}><Button title='CheckOut'/></View>
+  <Text style={styles.cartText}>Subtotal <Text style={{marginLeft: '60%'}}>{parseFloat(priceSum.toFixed(2))}</Text></Text>
+  <Text style={styles.cartText}>Tax  <Text style={{marginLeft: '79%'}}>{tax}</Text></Text>
+  <Text style={styles.cartText}>Delivery <Text style={{marginLeft: '50%'}}> {delivery} </Text></Text>
+  <Text style={{fontSize: 24, marginTop: 10, marginBottom: 10}}>TOTAL <Text style={{marginLeft: '55%'}}>{parseFloat(finalPrice.toFixed(2))}</Text></Text>
+  <View style={{borderRadius:'20', height:'8vh', }}><Button onPress={NavButton} title='CheckOut' style={{backgroundColor: '#ccc'}}/></View>
 </View>
 </Modal>
-*/}
 {/* Modal Sreen */}
 
     </View>
@@ -111,7 +127,7 @@ const styles = StyleSheet.create({
 
     fontSize: 18,
     marginTop: 20,
-    backgroundColor: 'red',
+    // backgroundColor: 'red',
 
   },
 

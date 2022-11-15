@@ -44,7 +44,7 @@ export default function App() {
     </NavigationContainer>
 
 
-    // <Cart/> .  HOMEBREW_NO_INSTALL_CLEANUP
+    // <Pay/>
 
   );
 }

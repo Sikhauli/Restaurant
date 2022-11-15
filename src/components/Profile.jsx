@@ -5,6 +5,8 @@ import { auth } from '../config/firebase';
 import { signOut } from 'firebase/auth';
 import { getDocs, collection, query, where,  addDoc, getFirestore } from 'firebase/firestore';
 import { Icon } from 'react-native-elements'
+import Home from './Home';
+
 
 // import * as ImagePicker from 'expo-image-picker';
 // import {getStorage, ref, uploadBytes,getDownloadURL} from 'firebase/storage'
@@ -12,7 +14,7 @@ import { Icon } from 'react-native-elements'
 
 const db = getFirestore();
 
-const Profile =()=>{
+const Profile =({navigation})=>{
   const [email, setEmail] = useState('');
 
   const [profile, setProfile] = useState({});
@@ -87,7 +89,7 @@ const Profile =()=>{
                 
             </View>
             <View style={styles.btnHistory}>
-                <TouchableOpacity style={styles.historyBtn}  onPress={()=>navigation.navigate('Home')}>Back Home</TouchableOpacity>
+                <TouchableOpacity style={styles.historyBtn}  onPress={() => navigation.navigate('Home')}>Back Home</TouchableOpacity>
             </View>
         </View>
     )
